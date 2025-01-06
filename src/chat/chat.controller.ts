@@ -9,10 +9,10 @@ export class ChatController {
   constructor(private service: ChatService) {}
 
   @GrpcMethod('ChatService', 'FatchAll')
-  async FatchAll(): Promise<GetChatDto[]> {
+  async FatchAll(): Promise<{ chats: GetChatDto[] }> {
     try {
       const result = await this.service.getAll();
-      return result;
+      return { chats: result };
     } catch (error) {
       throw new RpcException({
         code: status.INTERNAL,
