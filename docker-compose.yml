@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: bukanebi/chat-service:1
+    container_name: chat-service
+    restart: unless-stopped
+    ports:
+      - 3004:3004
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    name: localnet
+    external: true
