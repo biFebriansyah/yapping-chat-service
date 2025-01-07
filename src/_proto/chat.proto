@@ -6,19 +6,20 @@ import "google/protobuf/empty.proto";
 message CreateData {
   string senderId = 1;
   string receiverId = 2;
-  string messages = 3;
+  string message = 3;
 }
 
 message UpdateData {
   string chatId = 1;
-  string messages = 2;
+  string message = 2;
 }
 
 message GetData {
-  string senderId = 1;
-  string receiverId = 2;
-  string messages = 3;
-  string timestamp = 4;
+  string _id = 1;
+  string senderId = 2;
+  string receiverId = 3;
+  string message = 4;
+  string timestamp = 5;
 }
 
 message GetParams {

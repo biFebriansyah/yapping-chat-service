@@ -31,9 +31,12 @@ export class ChatController {
           message: 'Data Not Found',
         });
       }
-
       return result;
     } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+
       throw new RpcException({
         code: status.INTERNAL,
         message: error.message || 'An unexpected error occurred',
@@ -42,18 +45,20 @@ export class ChatController {
   }
 
   @GrpcMethod('ChatService', 'FatchUserChat')
-  async FatchUserChat(params: GetParams): Promise<GetChatDto[]> {
+  async FatchUserChat(params: GetParams): Promise<{ chats: GetChatDto[] }> {
     try {
       const result = await this.service.getUserChat(params.userId);
-      if (!result) {
+      if (!result || !result.length) {
         throw new RpcException({
           code: status.NOT_FOUND,
           message: 'Data Not Found',
         });
       }
-
-      return result;
+      return { chats: result };
     } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
       throw new RpcException({
         code: status.INTERNAL,
         message: error.message || 'An unexpected error occurred',
@@ -62,18 +67,20 @@ export class ChatController {
   }
 
   @GrpcMethod('ChatService', 'FatchChatHistory')
-  async FatchChatHistory(params: GetParams): Promise<GetChatDto[]> {
+  async FatchChatHistory(params: GetParams): Promise<{ chats: GetChatDto[] }> {
     try {
       const result = await this.service.getUserHistory(params.userId, params.receiverId);
-      if (!result) {
+      if (!result || !result.length) {
         throw new RpcException({
           code: status.NOT_FOUND,
           message: 'Data Not Found',
         });
       }
-
-      return result;
+      return { chats: result };
     } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
       throw new RpcException({
         code: status.INTERNAL,
         message: error.message || 'An unexpected error occurred',
