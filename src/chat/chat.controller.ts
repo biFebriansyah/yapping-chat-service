@@ -3,10 +3,17 @@ import { ChatService } from './chat.service';
 import { status } from '@grpc/grpc-js';
 import { CreateChatDto, GetChatDto, UpdateChatDto, GetParams } from './chat.dto';
 import { GrpcMethod, RpcException } from '@nestjs/microservices';
+import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
+import { HandlerConfig } from '../utils/rabbit';
 
 @Controller('chat')
 export class ChatController {
   constructor(private service: ChatService) {}
+
+  @RabbitSubscribe(HandlerConfig)
+  ChatConsumer(msg: CreateChatDto) {
+    console.log(msg);
+  }
 
   @GrpcMethod('ChatService', 'FatchAll')
   async FatchAll(): Promise<{ chats: GetChatDto[] }> {
