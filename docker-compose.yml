@@ -1,6 +1,6 @@
 services:
   backend:
-    image: bukanebi/chat-service:1
+    image: bukanebi/chat-service:2
     container_name: chat-service
     restart: unless-stopped
     ports:

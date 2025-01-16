@@ -28,7 +28,12 @@ export class ChatService {
   async getUserChat(userId: string): Promise<GetChatDto[]> {
     try {
       const objectId = new Types.ObjectId(userId);
-      return await this.chatModel.find({ $or: [{ senderId: objectId }, { receiverId: objectId }] }).exec();
+      return await this.chatModel
+        .find({ $or: [{ senderId: objectId }, { receiverId: objectId }] })
+        .populate({ path: 'senderId', select: '-password', model: 'Users' })
+        .populate({ path: 'receiverId', select: '-password', model: 'Users' })
+        .sort({ updatedAt: -1 })
+        .exec();
     } catch (error) {
       throw error;
     }

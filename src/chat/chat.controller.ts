@@ -61,6 +61,7 @@ export class ChatController {
           message: 'Data Not Found',
         });
       }
+
       return { chats: result };
     } catch (error) {
       if (error instanceof Error) {
